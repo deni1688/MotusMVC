@@ -11,11 +11,15 @@ class Pages extends Controller
     // default method set in Controller Class
     public function index()
     {
-        $data = [
-            'title' => 'Welcome to SharePosts',
-            'desc' => 'Simple social network built on the MotusMVC PHP framework.'
-        ];
-        $this->view('pages/index', $data);
+        if(isAuthenticated()){
+            redirect('posts/index');
+        }else{
+            $data = [
+                'title' => 'Welcome to SharePosts',
+                'desc' => 'Simple social network built on the MotusMVC PHP framework.'
+            ];
+            $this->view('pages/index', $data);
+        }
     }
 
     public function about()

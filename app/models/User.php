@@ -10,7 +10,8 @@ class User
     }
 
     // Regsiter user
-    public function register($data){
+    public function register($data)
+    {
         $this->db->query('INSERT INTO users (name, email, password) VALUES(:name, :email, :password)');
         // Bind values
         $this->db->bind(':name', $data['name']);
@@ -18,7 +19,7 @@ class User
         $this->db->bind(':password', $data['password']);
 
         // Execute
-        if($this->db->execute()){
+        if ($this->db->execute()) {
             return true;
         } else {
             return false;
@@ -27,7 +28,8 @@ class User
 
 
     // login User
-    public function login($email, $password){
+    public function login($email, $password)
+    {
         $this->db->query('SELECT * FROM users WHERE email = :email');
         $this->db->bind(':email', $email);
 
@@ -35,7 +37,7 @@ class User
 
         $hashed_password = $row->password;
 
-        if(password_verify($password, $hashed_password)){
+        if (password_verify($password, $hashed_password)) {
             return $row;
         } else {
             return false;
@@ -56,6 +58,17 @@ class User
         } else {
             return false;
         }
+    }
+
+    // find user by id
+    public function getUserById($id)
+    {
+        $this->db->query('SELECT * FROM users WHERE id=:id');
+        $this->db->bind(':id', $id);
+
+        $row = $this->db->single();
+
+        return $row;
     }
 
 }

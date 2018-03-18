@@ -13,12 +13,16 @@ class Users extends Controller
             'title' => 'Welcome to SharePosts',
             'desc' => 'Simple social network built on the MotusMVC PHP framework.'
         ];
-        $this->view('pages/index', $data);
+        $this->view('pages/404', $data);
     }
 
     // goes to register form and handles registration submission
     public function register()
     {
+        if (isAuthenticated()) {
+            redirect('posts/index');
+        }
+
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // process form
 
@@ -100,6 +104,9 @@ class Users extends Controller
 
     public function login()
     {
+        if (isAuthenticated()) {
+            redirect('posts/index');
+        }
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // process form
@@ -165,7 +172,7 @@ class Users extends Controller
         $_SESSION['user_id'] = $user->id;
         $_SESSION['email'] = $user->email;
         $_SESSION['name'] = $user->name;
-        redirect('users/index');
+        redirect('posts/index');
     }
 
     public function logout()
@@ -176,14 +183,5 @@ class Users extends Controller
         session_destroy();
         flash('auth_notification', 'You are logged out');
         redirect('users/login');
-    }
-
-    public function isAuthenticated()
-    {
-        if (isset($_SESSION['user_id'])) {
-            return true;
-        } else {
-            return false;
-        }
     }
 }
