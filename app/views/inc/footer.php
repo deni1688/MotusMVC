@@ -1,3 +1,7 @@
-<script src="<?php echo URLROOT; ?>/js/main.js"></script>
+</div>
+<!--main container end-->
+
+<?php require 'scripts.php'; ?>
+
 </body>
 </html>
